@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Datalist Elinv (Pc, Móvil y Table) [Insensible a mayúscula, minúsculas y acentos]</title>
+	<!-- Favicon-->
+	<link rel="icon" type="image/x-icon" href="./favicon.ico" />
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/direcciones.js"></script>
+	<script src="./js/datalistElinvClass.js"></script>
+
+</head>
+
+<body>
+
+	<div class="contenedor">
+
+		<div class="titulo">Teléfonos útiles de Bragado
+			<div class="tit1 vertical-center">
+				Datalist Elinv con clase<br>
+				Apto y funcional para Pc, Móvil y Table <br>
+				[Insensible a mayúscula, minúsculas y acentos] <br>
+				<span style="color:#91b8b3;">Código en Github</span>
+			</div>
+		</div>
+
+		<!-- Tag necesarios para implementar el Datalist 
+		------------------------------------------------ -->
+		<!-- Input de busqueda -->
+		<input id="search" class="searchBut" type="text" placeholder="Ingrese texto a buscar" />
+		<!-- Muestra la cantidad de resultados alcanzados -->
+		<input id="lblHallados" class="ledRes" type="label" placeholder="Resultados" disabled>
+		<!-- Muestra un solo resultado de la fila seleccionada
+		sea con el mouse o con el teclado. -->
+		<div class="margenArriba">
+			<input id="lblinnerHTML" class="ledResText vertical-center" type="label">
+		</div>
+		<!-- Es visible o invisible dependiendo si hay o no resultados. 
+		Muestra el datalist con los resultados de la busqueda. -->
+		<div id="listTel" class="dataListElinv in"></div>
+
+	</div>
+
+	<script>
+		/**
+		 *  * Parametros:
+		 * 	inputSearch :   id del Input de busqueda
+		 * 
+		 *  listDiv:        id del Datalist que es visible o invisible 
+		 *                  dependiendo si hay o no resultados. 
+		 *          		Se muestra con los resultados de la busqueda.
+		 * 
+		 *  lblinnerHTML:   id del input label que muestra un solo resultado 
+		 *                  de la fila seleccionada sea con el mouse 
+		 *                  o con el teclado.
+		 *  
+		 *  lblHallados:    id del input label que muestra la cantidad 
+		 *                  de resultados alcanzados
+		 * 
+		 *  arrDatalistElv: Parametro array para llenar el datalist
+		 * 
+		 * 
+		 */
+		let datalistNew = new datalistElinv('search', 'listTel', 'lblinnerHTML', 'lblHallados', telArr);
+		datalistNew.init(datalistNew);
+
+	</script>
+</body>
+
+</html>
