@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+
+    </style>
+    <script src="/scripts/snippet-javascript-console.min.js?v=1"></script>
+</head>
+
+<body>
+    <h3>Click on an element then press ArrowUp or ArrowDown</h3>
+    <input type="text" />
+    <input type="text" />
+    <input type="label" />
+    <input type="text" />
+    <div style="border: 5px solid #1C6EA4;" tabindex="0"> hola luis 1</div>
+    <div style="border: 5px solid #1C6EA4;" tabindex="0"> hola luis 2</div>
+    <div style="border: 5px solid #1C6EA4;" tabindex="0"> hola luis 3</div>
+    <div style="border: 5px solid #1C6EA4;" tabindex="0"> hola luis 4</div>
+    <div style="border: 5px solid #1C6EA4;" tabindex="0"> hola luis 5</div>
+
+
+    <script type="text/javascript">
+        function focus(key) {
+            const { activeElement: { [key]: elementSibling } = {} } = document;
+            if (elementSibling) {
+                elementSibling.focus();
+            }
+        }
+
+        const ACTIONS = {
+            ArrowDown: () => focus('nextElementSibling'),
+            ArrowUp: () => focus('previousElementSibling'),
+            Enter: (e) => myCustomEvent(e)
+        }
+
+        function handleKeyDown(e) {
+            console.log(e.key, e.target);
+            const handler = ACTIONS[e.key];
+            if (handler) {
+                e.preventDefault();
+                handler(e);
+            }
+        }
+
+        // simulating an event
+        window.addEventListener('keyup', handleKeyDown);
+    </script>
+</body>
+
+</html>

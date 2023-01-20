@@ -12,13 +12,21 @@
 	<script src="./js/direcciones.js"></script>
 	<script src="./js/datalistElinvClass.js"></script>
 
+	<style>
+		.sep{
+			border: 0;
+			height: 2px;
+			background-image: linear-gradient(to right, rgba(101, 70, 70, 0), rgba(255, 0, 0, 0.75), rgba(0, 0, 0, 0));
+		}
+	</style>
 </head>
 
 <body>
 
 	<div class="contenedor">
 
-		<div class="titulo">Teléfonos útiles de Bragado
+		<div id="titulo" class="titulo">Teléfonos útiles de Bragado
+			<hr class="sep">
 			<div class="tit1 vertical-center">
 				Datalist Elinv con clase<br>
 				Apto y funcional para Pc, Móvil y Table <br>
@@ -27,7 +35,9 @@
 			</div>
 		</div>
 
-		<!-- Tag necesarios para implementar el Datalist 
+		<hr class="sep">
+
+		<!-- Tag necesarios para implementar el DatalistElinv I 
 		------------------------------------------------ -->
 		<!-- Input de busqueda -->
 		<input id="search" class="searchBut" type="text" placeholder="Ingrese texto a buscar" />
@@ -36,36 +46,67 @@
 		<!-- Muestra un solo resultado de la fila seleccionada
 		sea con el mouse o con el teclado. -->
 		<div class="margenArriba">
-			<input id="lblinnerHTML" class="ledResText vertical-center" type="label">
+			<input id="lblinnerHTML" class="ledResText vertical-center" type="label" disabled>
 		</div>
 		<!-- Es visible o invisible dependiendo si hay o no resultados. 
 		Muestra el datalist con los resultados de la busqueda. -->
-		<div id="listTel" class="dataListElinv in"></div>
+		<div id="listTel" class="dataListElinvI in"></div>
+
+		<hr class="sep">
+
+		<!-- Tag necesarios para implementar el DatalistElinv II
+		------------------------------------------------ -->
+		<!-- Input de busqueda -->
+		<input id="search1" class="searchBut" type="text" placeholder="Ingrese texto a buscar" />
+		<!-- Muestra la cantidad de resultados alcanzados -->
+		<input id="lblHallados1" class="ledRes" type="label" placeholder="Resultados" disabled>
+		<!-- Muestra un solo resultado de la fila seleccionada
+		sea con el mouse o con el teclado. -->
+		<div class="margenArriba">
+			<input id="lblinnerHTML1" class="ledResText vertical-center" type="label" disabled>
+		</div>
+		<!-- Es visible o invisible dependiendo si hay o no resultados. 
+		Muestra el datalist con los resultados de la busqueda. -->
+		<div id="listTel1" class="dataListElinvII in"></div>
+		
+		<hr class="sep">
 
 	</div>
 
 	<script>
 		/**
+		 *  * Clase Datalist Elinv
 		 *  * Parametros:
+		 *  * ------------------------------------------------------------
 		 * 	inputSearch :   id del Input de busqueda
 		 * 
 		 *  listDiv:        id del Datalist que es visible o invisible 
 		 *                  dependiendo si hay o no resultados. 
 		 *          		Se muestra con los resultados de la busqueda.
 		 * 
+		 *  tabIndexPrefix:	Prefijo único para este tabindex.
+		 * 
+		 *  optionListDiv:  class option del datalist elinv.
+		 * 
 		 *  lblinnerHTML:   id del input label que muestra un solo resultado 
 		 *                  de la fila seleccionada sea con el mouse 
 		 *                  o con el teclado.
 		 *  
-		 *  lblHallados:    id del input label que muestra la cantidad 
+		 *  lblHallados:    id dedataListElinvl input label que muestra la cantidad 
 		 *                  de resultados alcanzados
 		 * 
 		 *  arrDatalistElv: Parametro array para llenar el datalist
-		 * 
-		 * 
+		 *  * ------------------------------------------------------------ 
 		 */
-		let datalistNew = new datalistElinv('search', 'listTel', 'lblinnerHTML', 'lblHallados', telArr);
+
+
+		// la clase: optionDatalistElinvI fue agregada a la clase option original en el CSS adjunto
+		let datalistNew = new datalistElinv('search', 'listTel', 'aTIP', 'dataListElinvI', 'optionDatalistElinvI', 'lblinnerHTML', 'lblHallados', telArr);
 		datalistNew.init(datalistNew);
+
+		// la clase: optionDatalistElinvII fue agregada a la clase option original en el CSS adjunto
+		let datalistNew1 = new datalistElinv('search1', 'listTel1', 'bTIP', 'dataListElinvII', 'optionDatalistElinvII', 'lblinnerHTML1', 'lblHallados1', telArr1);
+		datalistNew1.init(datalistNew1);
 
 	</script>
 </body>

@@ -7,6 +7,11 @@
  *  listDiv:        id del Datalist que es visible o invisible 
  *                  dependiendo si hay o no resultados. 
  *          		Se muestra con los resultados de la busqueda.
+ *  dataListElinv   Clase CSS DatalistElinv.
+ * 
+ *  tabIndexPrefix:	Prefijo único para este tabindex.
+ * 
+ *  optionListDiv:  class option del datalist elinv.
  * 
  *  lblinnerHTML:   id del input label que muestra un solo resultado 
  *                  de la fila seleccionada sea con el mouse 
@@ -21,7 +26,7 @@
 
 class datalistElinv {
 
-    constructor(inputSearch, listDiv, lblinnerHTML, lblHallados, arrDatalistElv) {
+    constructor(inputSearch, listDiv, tabIndexPrefix, dataListElinv, optionListDiv, lblinnerHTML, lblHallados, arrDatalistElv) {
 
         // Para recorrer mediante el teclado las filas visibles 
         // resultantes de la búsqueda.
@@ -32,15 +37,20 @@ class datalistElinv {
         this.lblinnerHTML = lblinnerHTML;
         // label contador resultados hallados
         this.lblHallados = lblHallados;
-        // datalist donde ingresaremos los listados
+        // id datalist donde ingresaremos los listados
         this.listDiv = listDiv;
+        // Prefijo único para el tab index de cada datalist
+        this.tabIndexPrefix = tabIndexPrefix;
+        // clase css del datalist elinv
+        this.dataListElinv = dataListElinv;
+        // class option del datalist elinv
+        this.optionListDiv = optionListDiv;
         // doble click en casilla de busqueda
         this.inputSearch = inputSearch;
         // array para llenar el Datalist
         this.arrDatalistElv = arrDatalistElv;
         // para la insensibilidad en acentos.
         this.accent_map = { 'á': 'a', 'é': 'e', 'è': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'Á': 'a', 'É': 'e', 'è': 'e', 'Í': 'i', 'Ó': 'o', 'Ú': 'u' };
-
     }
 
     // Para poder buscar a pesar de los acentos
@@ -64,39 +74,25 @@ class datalistElinv {
                 arrVisibles.push(options[i].id);
             }
         }
+        //console.log(arrVisibles);
         return arrVisibles;
     }
 
-    ver(s) {
-        let d = document.getElementById(s);
-        d.focus();
-        //document.getElementById(s).focus({focusVisible: true});
-        let verLbl = document.getElementById(this.lblinnerHTML);
-        verLbl.value = d.innerHTML;
-        // donde mostramos este item resaltado, y solo si esta oculto.
-        if (verLbl.style.display !== 'block'){
-            verLbl.style.display = "block";
-        }
+    // devuelve un nuevo array con todos los elementos
+    // o con los seleccionados llenando el datalist
+    newArray(arrayList, dlAppend) {
+        // llenamos el datalist
+        let iArr = 0;
+        arrayList.forEach(element => {
+            // Para poder enfocar un div 
+            // contenteditable="true" es una forma
+            // o la otra agregando atributo tabindex
+            let divStr = `<div id="${this.tabIndexPrefix}${iArr++}" tabindex="0" class="${this.optionListDiv}">${element}</div>`
+            let nodo = divStr.toDOM();
+            dlAppend.appendChild(nodo);
+        });
     }
 
-    next() {
-        let cuantos = this.arrVisiblesKeyNav.length;
-        this.p++;                     
-        if (this.arrVisiblesKeyNav[this.p] !== undefined) {
-            this.ver(this.arrVisiblesKeyNav[this.p]);
-        } else {
-            this.p = cuantos;
-        }
-    }
-
-    prev() {
-        this.p--;    
-        if (this.arrVisiblesKeyNav[this.p] !== undefined) {
-            this.ver(this.arrVisiblesKeyNav[this.p]);
-        } else {
-            this.p = -1;
-        }
-    }
 
     init(nameDL) {
         var s = document.getElementById(this.inputSearch);
@@ -104,6 +100,7 @@ class datalistElinv {
 
         // input search si se presiona cualquier tecla
         s.addEventListener('keyup', function (event) {
+                   
             //Se ejecuta si no es espacio
             if (event.key !== " ") {
                 // Separamos las palabras buscadas por espacio
@@ -120,7 +117,9 @@ class datalistElinv {
                 // obviamos acentos
                 regexp = nameDL.obviarAcentos(regexp);
                 // analizamos cada option
-                let options = document.getElementsByClassName("options");
+                let options = document.getElementsByClassName(`${nameDL.optionListDiv}`);
+                this.optionListDiv
+
                 let tantos = options.length;
                 let hallados = 0;
                 let res;
@@ -162,7 +161,7 @@ class datalistElinv {
                         gralRes.style.display = "block";
                     }, 400);
                     // obtenemos los id en array de elem visibles
-                    nameDL.arrVisiblesKeyNav = nameDL.visibles("options");
+                    nameDL.arrVisiblesKeyNav = nameDL.visibles(`${nameDL.optionListDiv}`);
                     contHallados.value = hallados + res;
                 }
 
@@ -172,9 +171,9 @@ class datalistElinv {
         //input search si se hace doble click con el boton izquierdo del mouse
         s.addEventListener('dblclick', (e) => {
             // limpiamos el text input buscador de palabras
-            s.value = ''; 
+            s.value = '';
             // ocultamos el datalist
-            document.getElementById(this.listDiv).style.display = 'none'; 
+            document.getElementById(this.listDiv).style.display = 'none';
             // limpiamos el contador de hallados.
             let contHallados = document.getElementById(nameDL.lblHallados);
             contHallados.value = '';
@@ -184,47 +183,21 @@ class datalistElinv {
         });
 
         // llenamos el datalist
-        let iArr = 0;
-        this.arrDatalistElv.forEach(element => {
-            // Para poder enfocar un div 
-            // contenteditable="true" es una forma
-            // o la otra agregando atributo tabindex
-            let divStr = `<div id="${iArr}" tabindex="${iArr++}" class="options">${element}</div>`
-            let nodo = divStr.toDOM();
-            gralRes.appendChild(nodo);
-        });
+        this.newArray(this.arrDatalistElv, gralRes);
 
         // detect click dentro de los divs
-        document.addEventListener("click", function (event) {
+        gralRes.addEventListener("click", function (event) {
             // Si el click es dentro del listado
             let verLbl = document.getElementById(nameDL.lblinnerHTML);
-            if (event.target.closest(".dataListElinv")) {
+            if (event.target.closest(`.${nameDL.dataListElinv}`)) {
                 // lo mostramos individualmente
-                verLbl.value = event.target.innerHTML;                
+                verLbl.value = event.target.innerHTML;
                 // solo si el tag visualizador esta oculto
-                if (verLbl.style.display !== 'block'){
+                if (verLbl.style.display !== 'block') {
                     verLbl.style.display = "block";
                 }
-                //actualizamos la posición para la selección por teclas arriba|abajo
-                nameDL.arrVisiblesKeyNav.forEach((element, index) => {
-                    if (document.getElementById(element).innerHTML === event.target.innerHTML){
-                        nameDL.p = index;
-                    }
-                });
             }
         })
-
-        // detect key 'ArrowUp' and 'ArrowDown' y ejecuta funciones.
-        document.onkeydown = function (e) {
-            e = e || window.event;
-            if (e.key == 'ArrowUp') {
-                nameDL.prev();
-            }
-            if (e.key == 'ArrowDown') {
-                nameDL.next();
-            }
-            return;
-        }
     }
 }
 

@@ -98,7 +98,7 @@
     width: 90%;
 }
 
-.dataListElinv {
+.dataListElinvI, .dataListElinvII {
     width: var(--datalistElinvWidthPC);
     max-height: var(--datalistElinvHeightPC);
     margin-top: 2em;
@@ -142,34 +142,34 @@
     }
 }
 
-.options:nth-child(2n+1) {
+.options:nth-child(2n+1), .optionDatalistElinvI:nth-child(2n+1), .optionDatalistElinvII:nth-child(2n+1) {
     background-color: #6493c8;
     border-bottom: 1px solid #0289e3;
     border-top: 1px solid #0289e3;
     border-right: 1px solid #0289e3;
 }
 
-.options:nth-child(2n+2) {
+.options:nth-child(2n+2), .optionDatalistElinvI:nth-child(2n+2), .optionDatalistElinvII:nth-child(2n+2) {
     border-right: 1px solid #1C6EA4;
     border-bottom: 1px solid #1C6EA4;
 }
 
-.options:nth-child(2n+1):hover {
+.options:nth-child(2n+1):hover, .optionDatalistElinvI:nth-child(2n+1):hover, .optionDatalistElinvII:nth-child(2n+1):hover {
     background-color: #754bb4;
     color: #d9d9d9;
 }
 
-.options:nth-child(2n+2):hover {
+.options:nth-child(2n+2):hover, .optionDatalistElinvI:nth-child(2n+2):hover, .optionDatalistElinvII:nth-child(2n+2):hover {
     background-color: #754bb4;
     color: #d9d9d9;
 }
 
-.options:nth-child(2n+1):focus-within {
+.options:nth-child(2n+1):focus-within, .optionDatalistElinvI:focus-within, .optionDatalistElinvII:focus-within {
     background-color: #754bb4;
     color: #d9d9d9;
 }
 
-.options:nth-child(2n+2):focus-within {
+.options:nth-child(2n+2):focus-within, .optionDatalistElinvI:nth-child(2n+2):focus-within, .optionDatalistElinvII:focus-within {
     background-color: #754bb4;
     color: #d9d9d9;
 }
@@ -217,7 +217,7 @@
 
 /* tablet y telefono horizontal */
 @media screen and (max-width: 950px) {
-    .dataListElinv {
+    .dataListElinvI, .dataListElinvII {
         width: var(--datalistElinvWidthTable);
         max-height: var(--datalistElinvHeightTable);
         margin-top: 1.5em;
@@ -230,7 +230,7 @@
 
 /*teléfono vertical */
 @media screen and (max-width: 600px) {
-    .dataListElinv {
+    .dataListElinvI, .dataListElinvII {
         width: var(--datalistElinvWidthPhone);
         max-height: var(--datalistElinvHeightPhone);
         margin-top: 1.5em;
